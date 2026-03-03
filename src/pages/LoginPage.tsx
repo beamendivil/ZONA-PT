@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Eye, EyeOff, Lock, Mail, ArrowLeft } from 'lucide-react';
 
 export default function LoginPage() {
+  import { useEffect } from 'react';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -19,16 +20,7 @@ export default function LoginPage() {
 
     try {
       const success = await login(email, password);
-      if (success) {
-        // Wait for user state to update, then redirect
-        setTimeout(() => {
-          if (user && user.role === 'admin') {
-            navigate('/admin');
-          } else {
-            navigate('/dashboard');
-          }
-        }, 0);
-      } else {
+      if (!success) {
         setError('Invalid email or password. Please try again.');
       }
     } catch {
@@ -37,6 +29,16 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-[#EAF4FA] flex items-center justify-center p-4">
