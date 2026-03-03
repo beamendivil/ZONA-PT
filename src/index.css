@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 200 50% 95%;
+    --foreground: 207 35% 17%;
+    --card: 200 60% 98%;
+    --card-foreground: 207 35% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 35% 17%;
+    --primary: 207 100% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 200 50% 95%;
+    --secondary-foreground: 207 35% 17%;
+    --muted: 200 30% 90%;
+    --muted-foreground: 210 15% 50%;
+    --accent: 207 100% 59%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 200 30% 85%;
+    --input: 200 30% 85%;
+    --ring: 207 100% 59%;
+    --radius: 0.875rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Typography */
+.font-heading {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Section base styles */
+.section-pinned {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.section-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(234,244,250,0.85) 0%, rgba(234,244,250,0.4) 50%, rgba(234,244,250,0.1) 70%);
+}
+
+/* Card styles */
+.glass-card {
+  background: rgba(246,251,254,0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(26,45,61,0.12);
+}
+
+.info-card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 28px;
+  box-shadow: 0 18px 50px rgba(26,45,61,0.10);
+}
+
+/* Accent underline */
+.accent-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.accent-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: -5%;
+  width: 110%;
+  height: 3px;
+  background: #2F9BFF;
+  border-radius: 2px;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-8 py-4 bg-[#2F9BFF] text-white font-semibold rounded-[14px] transition-all duration-300;
+}
+
+.btn-primary:hover {
+  @apply bg-[#1a8aee] shadow-lg;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  @apply px-8 py-4 border-2 border-[#2F9BFF] text-[#2F9BFF] font-semibold rounded-[14px] transition-all duration-300;
+}
+
+.btn-outline:hover {
+  @apply bg-[#2F9BFF] text-white;
+}
+
+/* Tag/Pill styles */
+.tag {
+  @apply px-4 py-2 bg-[#EAF4FA] text-[#1A2D3D] text-sm font-medium rounded-full;
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Navigation */
+.nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.5rem 7vw;
+  transition: all 0.3s ease;
+}
+
+.nav-scrolled {
+  background: rgba(246,251,254,0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(26,45,61,0.08);
+}
+
+/* Smooth scroll for GSAP */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
