@@ -20,12 +20,14 @@ export default function LoginPage() {
     try {
       const success = await login(email, password);
       if (success) {
-        // Redirect based on user role
-        if (user?.role === 'admin') {
-          navigate('/admin');
-        } else {
-          navigate('/dashboard');
-        }
+        // Wait for user state to update, then redirect
+        setTimeout(() => {
+          if (user && user.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/dashboard');
+          }
+        }, 0);
       } else {
         setError('Invalid email or password. Please try again.');
       }
