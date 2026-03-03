@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Eye, EyeOff, Lock, Mail, ArrowLeft } from 'lucide-react';
 
@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { login, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,13 +32,13 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      if (user.role === 'admin') {
+      if (user.role === 'admin' && location.pathname !== '/admin') {
         navigate('/admin');
-      } else {
+      } else if (user.role !== 'admin' && location.pathname !== '/dashboard') {
         navigate('/dashboard');
       }
     }
-  }, [user, navigate]);
+  }, [user, navigate, location.pathname]);
 
   return (
     <div className="min-h-screen bg-[#EAF4FA] flex items-center justify-center p-4">
