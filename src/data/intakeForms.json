@@ -1,0 +1,131 @@
+[
+  {
+    "id": "consent-to-treat",
+    "version": "placeholder-2026-01",
+    "title": { "en": "Consent to Treat", "es": "Consentimiento para recibir tratamiento" },
+    "summary": { "en": "Review and acknowledge your permission to receive physical therapy evaluation and treatment.", "es": "Revise y confirme su permiso para recibir evaluación y tratamiento de fisioterapia." },
+    "fullText": {
+      "en": ["Placeholder: The clinic must add approved treatment, benefit, risk, alternative, and withdrawal language."],
+      "es": ["Texto provisional: La clínica debe agregar el lenguaje aprobado sobre tratamiento, beneficios, riesgos, alternativas y retiro."]
+    },
+    "required": true,
+    "kind": "consent",
+    "fields": []
+  },
+  {
+    "id": "hipaa-privacy",
+    "version": "placeholder-2026-01",
+    "title": { "en": "HIPAA / Privacy Acknowledgment", "es": "Reconocimiento de privacidad / HIPAA" },
+    "summary": { "en": "Acknowledge that the clinic made its privacy practices available to you.", "es": "Confirme que la clínica puso a su disposición sus prácticas de privacidad." },
+    "fullText": {
+      "en": ["Placeholder: Replace with the clinic's approved Notice of Privacy Practices acknowledgment."],
+      "es": ["Texto provisional: Reemplace con el reconocimiento aprobado de las prácticas de privacidad de la clínica."]
+    },
+    "required": true,
+    "kind": "consent",
+    "fields": []
+  },
+  {
+    "id": "initial-questionnaire",
+    "version": "2026-01",
+    "title": { "en": "Initial Intake Questionnaire", "es": "Cuestionario inicial" },
+    "summary": { "en": "Tell your clinician what brought you in and what you want to return to doing.", "es": "Dígale a su profesional qué le trae y qué actividad desea volver a hacer." },
+    "fullText": { "en": ["Your answers help your clinician prepare for the assessment."], "es": ["Sus respuestas ayudan a su profesional a prepararse para la evaluación."] },
+    "required": true,
+    "kind": "questionnaire",
+    "fields": [
+      { "id": "primaryConcern", "type": "textarea", "required": true, "label": { "en": "What brings you to physical therapy?", "es": "¿Qué le trae a fisioterapia?" } },
+      { "id": "functionalGoal", "type": "textarea", "required": true, "label": { "en": "What activity would you most like to do more easily?", "es": "¿Qué actividad desea hacer con más facilidad?" } },
+      { "id": "symptomStart", "type": "text", "required": true, "label": { "en": "When did this problem begin?", "es": "¿Cuándo comenzó este problema?" } }
+    ]
+  },
+  {
+    "id": "medical-history",
+    "version": "2026-01",
+    "title": { "en": "Medical History", "es": "Historial médico" },
+    "summary": { "en": "Share conditions, medicines, surgeries, or precautions relevant to your care.", "es": "Comparta condiciones, medicamentos, cirugías o precauciones importantes para su atención." },
+    "fullText": { "en": ["Provide what you know. Your clinician will review it with you."], "es": ["Proporcione lo que sepa. Su profesional lo revisará con usted."] },
+    "required": true,
+    "kind": "questionnaire",
+    "fields": [
+      { "id": "conditions", "type": "textarea", "required": true, "label": { "en": "Medical conditions or diagnoses", "es": "Condiciones médicas o diagnósticos" } },
+      { "id": "medications", "type": "textarea", "required": true, "label": { "en": "Current medications", "es": "Medicamentos actuales" } },
+      { "id": "surgeries", "type": "textarea", "label": { "en": "Previous surgeries or hospital stays", "es": "Cirugías u hospitalizaciones anteriores" } },
+      { "id": "allergies", "type": "text", "label": { "en": "Allergies", "es": "Alergias" } }
+    ]
+  },
+  {
+    "id": "pain-assessment",
+    "version": "2026-01",
+    "title": { "en": "Pain Assessment", "es": "Evaluación del dolor" },
+    "summary": { "en": "Describe your pain today so your clinician can plan safely.", "es": "Describa su dolor hoy para que su profesional pueda planificar de forma segura." },
+    "fullText": { "en": ["0 means no pain and 10 means the worst pain."], "es": ["0 significa sin dolor y 10 significa el peor dolor."] },
+    "required": true,
+    "kind": "questionnaire",
+    "fields": [
+      { "id": "painScore", "type": "number", "required": true, "label": { "en": "Pain today (0–10)", "es": "Dolor hoy (0–10)" } },
+      { "id": "painLocation", "type": "text", "required": true, "label": { "en": "Where do you feel pain?", "es": "¿Dónde siente dolor?" } },
+      { "id": "painPattern", "type": "textarea", "label": { "en": "What makes it better or worse?", "es": "¿Qué lo mejora o empeora?" } }
+    ]
+  },
+  {
+    "id": "fall-history",
+    "version": "2026-01",
+    "title": { "en": "Fall History", "es": "Historial de caídas" },
+    "summary": { "en": "A few questions help your clinician understand balance and fall risk.", "es": "Algunas preguntas ayudan a entender el equilibrio y el riesgo de caídas." },
+    "fullText": { "en": ["Answering yes does not change your access to care."], "es": ["Responder sí no cambia su acceso a la atención."] },
+    "required": true,
+    "kind": "questionnaire",
+    "fields": [
+      { "id": "fellPastYear", "type": "radio", "required": true, "label": { "en": "Have you fallen in the past year?", "es": "¿Se ha caído durante el último año?" }, "options": [{ "value": "yes", "label": { "en": "Yes", "es": "Sí" } }, { "value": "no", "label": { "en": "No", "es": "No" } }] },
+      { "id": "fallCount", "type": "number", "label": { "en": "If yes, about how many times?", "es": "Si respondió sí, ¿aproximadamente cuántas veces?" } },
+      { "id": "fearOfFalling", "type": "radio", "required": true, "label": { "en": "Are you worried about falling?", "es": "¿Le preocupa caerse?" }, "options": [{ "value": "yes", "label": { "en": "Yes", "es": "Sí" } }, { "value": "no", "label": { "en": "No", "es": "No" } }] }
+    ]
+  },
+  {
+    "id": "emergency-contact",
+    "version": "2026-01",
+    "title": { "en": "Emergency Contact", "es": "Contacto de emergencia" },
+    "summary": { "en": "Confirm who the clinic may contact in an emergency.", "es": "Confirme a quién puede llamar la clínica en caso de emergencia." },
+    "fullText": { "en": ["Keep this information current."], "es": ["Mantenga esta información actualizada."] },
+    "required": true,
+    "kind": "questionnaire",
+    "fields": [
+      { "id": "contactName", "type": "text", "required": true, "label": { "en": "Emergency contact name", "es": "Nombre del contacto de emergencia" } },
+      { "id": "contactPhone", "type": "text", "required": true, "label": { "en": "Emergency contact phone", "es": "Teléfono del contacto de emergencia" } },
+      { "id": "relationship", "type": "text", "required": true, "label": { "en": "Relationship to patient", "es": "Relación con el paciente" } }
+    ]
+  },
+  {
+    "id": "dry-needling",
+    "version": "placeholder-2026-01",
+    "title": { "en": "Dry Needling Consent", "es": "Consentimiento para punción seca" },
+    "summary": { "en": "This separate consent appears only when dry needling is requested.", "es": "Este consentimiento separado aparece solo cuando se solicita la punción seca." },
+    "fullText": { "en": ["Placeholder: Add clinic-approved procedure, risk, benefit, and alternative language."], "es": ["Texto provisional: Agregue lenguaje aprobado sobre el procedimiento, riesgos, beneficios y alternativas."] },
+    "required": true,
+    "kind": "consent",
+    "condition": "dry-needling-requested",
+    "fields": []
+  },
+  {
+    "id": "ambient-recording",
+    "version": "placeholder-2026-01",
+    "title": { "en": "Ambient Recording Consent", "es": "Consentimiento para grabación ambiental" },
+    "summary": { "en": "Choose whether session audio may help your clinician prepare accurate notes. This is optional.", "es": "Decida si el audio de la sesión puede ayudar a preparar notas precisas. Es opcional." },
+    "fullText": { "en": ["Recording is optional, never used for marketing, and may be declined without affecting care."], "es": ["La grabación es opcional, nunca se usa para publicidad y puede rechazarse sin afectar la atención."] },
+    "required": false,
+    "kind": "consent",
+    "fields": []
+  },
+  {
+    "id": "telehealth",
+    "version": "placeholder-2026-01",
+    "title": { "en": "Telehealth Consent", "es": "Consentimiento para telesalud" },
+    "summary": { "en": "Review this form if you may choose a virtual first assessment.", "es": "Revise este formulario si puede elegir una primera evaluación virtual." },
+    "fullText": { "en": ["Placeholder: Add clinic-approved telehealth privacy, technology, risk, and emergency language."], "es": ["Texto provisional: Agregue lenguaje aprobado sobre privacidad, tecnología, riesgos y emergencias de telesalud."] },
+    "required": false,
+    "kind": "consent",
+    "condition": "telehealth-supported",
+    "fields": []
+  }
+]

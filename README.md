@@ -155,16 +155,52 @@ npm run preview
 npm run lint
 ```
 
+## Deploy to Vercel
+
+This is a Vite single-page app. The included `vercel.json` lets React Router
+handle direct visits to routes such as `/dashboard`.
+
+Use these Vercel project settings:
+
+- Framework Preset: **Vite**
+- Root Directory: **repository root**
+- Install Command: **npm install**
+- Build Command: **npm run build**
+- Output Directory: **dist**
+- Development Command: **npm run dev**
+- Environment Variables: **none required for this demo**
+
+Consent documents are placeholders. Before production use, add clinic-approved
+legal text and replace demo authentication and local browser storage with secure,
+access-controlled, auditable server-side storage. Do not store real PHI in this
+demo.
+
 ## Current Routes
 
 ```txt
 /             Landing page
 /login        Login page
+/client-portal New-client intake forms and first-assessment scheduling
+/intake       Redirects to the new-client portal
+/onboarding   Role, condition, and language choices
+/consent      Versioned patient consent workflow
 /dashboard    Patient dashboard
 /admin        Physical therapist admin dashboard
 ```
 
 The dashboard and admin routes are protected. Patients are routed to the patient dashboard, while admin users can access the therapist dashboard.
+
+## New Client Intake Demo
+
+The client portal saves a versioned draft in browser `localStorage`, including
+profile details, form answers, signatures, timestamps, consent choices, and the
+mock appointment selection. Required forms must be complete before scheduling
+unlocks. Appointment availability is generated locally by
+`SchedulingService`; no external calendar is contacted.
+
+This browser-only storage is for prototyping and must be replaced with secure
+authenticated server storage, audit logging, clinic-approved legal documents,
+and a real scheduling integration before handling real patient information.
 
 ## Project Structure
 

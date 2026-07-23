@@ -1,112 +1,72 @@
-import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { lazy, Suspense, type ReactNode } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './index.css';
 
-import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import LandingPage from '@/pages/LandingPage';
-import LoginPage from '@/pages/LoginPage';
-import ClientDashboard from '@/pages/ClientDashboard';
-import AdminDashboard from '@/pages/AdminDashboard';
+import { useAuth } from '@/contexts/AuthContext';
+import { AppErrorBoundary } from '@/components/AppErrorBoundary';
+import { getClientByEmail } from '@/data/exercises';
+import { ConsentManager } from '@/services/ConsentManager';
+import { ProfileManager } from '@/services/ProfileManager';
 
-gsap.registerPlugin(ScrollTrigger);
+const LandingPage = lazy(() => import('@/pages/LandingPage'));
+const LoginPage = lazy(() => import('@/pages/LoginPage'));
+const OnboardingPage = lazy(() => import('@/pages/OnboardingPage'));
+const ConsentPage = lazy(() => import('@/pages/ConsentPage'));
+const ClientDashboard = lazy(() => import('@/pages/ClientDashboard'));
+const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'));
+const ClientPortalPage = lazy(() => import('@/pages/ClientPortalPage'));
+const PilotReadinessPage = lazy(() => import('@/pages/PilotReadinessPage'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const AccountSecurityPage = lazy(() => import('@/pages/AccountSecurityPage'));
 
-// Protected route component
-function ProtectedRoute({ children, requireAdmin = false }: { children: React.ReactNode; requireAdmin?: boolean }) {
-  const { isAuthenticated, isAdmin } = useAuth();
+function ProtectedRoute({ children, requireAdmin = false }: { children: ReactNode; requireAdmin?: boolean }) {
+  const { isAuthenticated, isAdmin, user } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (requireAdmin && !isAdmin) return <Navigate to="/dashboard" replace />;
+
+  if (!requireAdmin && user && !isAdmin) {
+    if (!ProfileManager.get(user.id)) return <Navigate to="/onboarding" replace />;
+    const client = getClientByEmail(user.email);
+    if (ConsentManager.missing(user.id, client?.dryNeedlingAssigned ?? false).length > 0) {
+      return <Navigate to="/consent" replace />;
+    }
+    if (!ConsentManager.getLatest(user.id, 'ambient-recording')) {
+      return <Navigate to="/consent" replace />;
+    }
   }
 
-  if (requireAdmin && !isAdmin) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <>{children}</>;
+  return children;
 }
 
-function App() {
-  useEffect(() => {
-    // Wait for all ScrollTriggers to be created (for landing page)
-    const timer = setTimeout(() => {
-      const pinned = ScrollTrigger.getAll()
-        .filter(st => st.vars.pin)
-        .sort((a, b) => a.start - b.start);
-      
-      const maxScroll = ScrollTrigger.maxScroll(window);
-      
-      if (!maxScroll || pinned.length === 0) return;
-
-      // Build ranges and snap targets from pinned sections
-      const pinnedRanges = pinned.map(st => ({
-        start: st.start / maxScroll,
-        end: (st.end ?? st.start) / maxScroll,
-        center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
-      }));
-
-      // Create global snap
-      ScrollTrigger.create({
-        snap: {
-          snapTo: (value: number) => {
-            // Check if within any pinned range (with buffer)
-            const inPinned = pinnedRanges.some(
-              r => value >= r.start - 0.08 && value <= r.end + 0.08
-            );
-            
-            if (!inPinned) return value; // Flowing section: free scroll
-
-            // Find nearest pinned center
-            const target = pinnedRanges.reduce((closest, r) =>
-              Math.abs(r.center - value) < Math.abs(closest - value) ? r.center : closest,
-              pinnedRanges[0]?.center ?? 0
-            );
-
-            return target;
-          },
-          duration: { min: 0.15, max: 0.35 },
-          delay: 0,
-          ease: 'power2.out',
-        }
-      });
-
-      // Refresh ScrollTrigger
-      ScrollTrigger.refresh();
-    }, 500);
-
-    return () => {
-      clearTimeout(timer);
-      ScrollTrigger.getAll().forEach(st => st.kill());
-    };
-  }, []);
-
+function RouteLoading() {
   return (
-    <AuthProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute>
-                <ClientDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/admin" 
-            element={
-              <ProtectedRoute requireAdmin>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <div className="grid min-h-screen place-items-center bg-sky-50" role="status">
+      <p className="text-lg font-semibold text-slate-800">Loading…</p>
+    </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <AppErrorBoundary>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Suspense fallback={<RouteLoading />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/client-portal" element={<ClientPortalPage />} />
+            <Route path="/intake" element={<Navigate to="/client-portal" replace />} />
+            <Route path="/onboarding" element={<OnboardingPage />} />
+            <Route path="/consent" element={<ConsentPage />} />
+            <Route path="/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/pilot-readiness" element={<ProtectedRoute requireAdmin><PilotReadinessPage /></ProtectedRoute>} />
+            <Route path="/account" element={<ProtectedRoute><AccountSecurityPage /></ProtectedRoute>} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </AppErrorBoundary>
+  );
+}

@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { env } from '@/config/env';
+import { useAuth as useClerkAuth, useUser } from '@clerk/react';
 
 export type UserRole = 'client' | 'admin';
 
@@ -54,6 +56,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    if (!import.meta.env.DEV || !env.demoAuthEnabled) return false;
+
     const demoUser = DEMO_USERS[email.toLowerCase()];
     if (demoUser && demoUser.password === password) {
       setUser(demoUser.user);
@@ -79,6 +83,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
+}
+
+export function ClerkAuthProvider({ children }: { children: ReactNode }) {
+  const clerk = useClerkAuth();
+  const { user: clerkUser } = useUser();
+  const role = clerkUser?.publicMetadata.role === 'admin' ? 'admin' : 'client';
+  const user: User | null = clerk.userId && clerkUser ? {
+    id: clerk.userId,
+    email: clerkUser.primaryEmailAddress?.emailAddress ?? '',
+    name: clerkUser.fullName ?? clerkUser.primaryEmailAddress?.emailAddress ?? 'ZONA PT user',
+    role,
+  } : null;
+
+  const login = useCallback(async () => false, []);
+  const logout = useCallback(() => { void clerk.signOut(); }, [clerk]);
+  return <AuthContext.Provider value={{ user, login, logout, isAuthenticated: clerk.isSignedIn === true, isAdmin: role === 'admin' && clerk.isSignedIn === true }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

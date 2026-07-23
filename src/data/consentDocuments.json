@@ -1,0 +1,44 @@
+[
+  {
+    "type": "consent-to-treat",
+    "version": "placeholder-2026-01",
+    "required": true,
+    "title": { "en": "Consent to Treat", "es": "Consentimiento para recibir tratamiento" },
+    "summary": {
+      "en": "Placeholder: Review how physical therapy care, benefits, possible discomforts, and your choices will be explained.",
+      "es": "Texto provisional: Revise cómo se explicarán la fisioterapia, sus beneficios, las posibles molestias y sus opciones."
+    },
+    "points": {
+      "en": ["You may ask questions before signing.", "You may discuss or withdraw consent with your clinic."],
+      "es": ["Puede hacer preguntas antes de firmar.", "Puede hablar con su clínica o retirar su consentimiento."]
+    }
+  },
+  {
+    "type": "dry-needling",
+    "version": "placeholder-2026-01",
+    "required": false,
+    "title": { "en": "Dry Needling Consent", "es": "Consentimiento para punción seca" },
+    "summary": {
+      "en": "Placeholder: This is a separate consent for dry needling when it is part of your treatment plan.",
+      "es": "Texto provisional: Este es un consentimiento separado para la punción seca cuando forma parte de su plan."
+    },
+    "points": {
+      "en": ["Your clinician should explain the procedure, alternatives, and possible risks.", "Signing this form is separate from consent to treat."],
+      "es": ["Su profesional debe explicar el procedimiento, las alternativas y los posibles riesgos.", "Esta firma es independiente del consentimiento para tratamiento."]
+    }
+  },
+  {
+    "type": "ambient-recording",
+    "version": "placeholder-2026-01",
+    "required": false,
+    "title": { "en": "Session Audio Consent", "es": "Consentimiento para audio de la sesión" },
+    "summary": {
+      "en": "Choose whether audio may be captured during PT sessions to help verify documentation and prepare clinical notes.",
+      "es": "Decida si se puede grabar audio durante las sesiones para verificar la documentación y preparar notas clínicas."
+    },
+    "points": {
+      "en": ["Audio is recorded only with your permission.", "It supports documentation accuracy and is never used for marketing.", "You may decline and still receive treatment.", "You may revoke consent later; your clinician will be notified.", "Manual note entry remains available."],
+      "es": ["El audio se graba solo con su permiso.", "Ayuda a la precisión de las notas y nunca se usa para publicidad.", "Puede rechazarlo y aun así recibir tratamiento.", "Puede retirarlo después; se notificará a su profesional.", "Las notas manuales seguirán disponibles."]
+    }
+  }
+]
