@@ -7,13 +7,15 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const enableInspector = mode === 'development' && env.VITE_ENABLE_INSPECTOR !== 'false'
+  const isGitHubPages = mode === 'production'
+  const pagesBase = isGitHubPages ? '/ZONA-PT/' : '/'
 
   if (mode === 'production' && env.VITE_ENABLE_DEMO_AUTH === 'true') {
     throw new Error('VITE_ENABLE_DEMO_AUTH cannot be true in a production build.')
   }
 
   return {
-    base: '/',
+    base: pagesBase,
     plugins: [enableInspector && inspectAttr(), react()].filter(Boolean),
     resolve: {
       alias: {
